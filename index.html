@@ -2,20 +2,63 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Untitled Document</title>
+    <title>Adv Demo 4</title>
     <link href="css/reset.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 </head>
 
 <body>
-
+    
 	<script src="js/item.js"></script>
     <script>
-        //instantiate some coins
-        var drop1 = new Item();
-        drop1.create();
-        var drop2 = new Item();
-        drop2.create();
+        /*START GAME */
+        //an array to keep track of all the drops
+        var drop_array = new Array();
+        //instantiate on ground at bottom:
+        var ground = new Item("ground", 
+                            0, 
+                            500);
+        ground.create();
+        //start a named timer causing drops to
+        //generate every so often:
+        var spawntimer = setInterval(spawnDrop, 1000);
+        /*START GAME */
+        //move drops every so often
+        var movetimer = setInterval(moveDrops,1000/30);
+        /**
+         *this method instantiates one raindrop
+         */
+        
+        function spawnDrop(){
+        //instantiate one raindrop
+            var another_drop = new Item("raindrop", 
+                                  Math.floor(Math.random()*720),-50);
+            another_drop.create();
+            //store it in the array
+            drop_array.push(another_drop);
+        }
+        
+        
+        /*
+        *this method loops through all raindrops
+        *in the drop array, adding a little to their y
+        */ 
+        function moveDrops(){
+           for(var i=0; i<drop_array.length; i++){
+                drop_array[i].y+=5;
+               drop_array[i].item_on_page.style.top = 
+                   drop_array[i].y + "px";
+               
+               //if drop is too far down...
+               if(drop_array[i].y>500 ){
+                    // DESTROY ITS!!!
+                    drop_array[i].destroy();
+               }//end "if drop too far dow"
+           }//end "for loop"
+        }//end moveDrops()
+        
+        
+        
     </script>
 </body>
 </html>
