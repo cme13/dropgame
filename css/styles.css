@@ -13,3 +13,13 @@
 .ground { 	width:720px; height:50px;
 			background-color:#666;
 			position:absolute;}
+			
+			
+.bucket{
+	width:100px; height:75px;
+	background-color:#999;
+	border:solid #333 2px;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+	position:absolute;}
+}

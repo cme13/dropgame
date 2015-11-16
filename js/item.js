@@ -7,10 +7,13 @@
  *@param xpos     int  -  horizontal starting position
  *@param ypos      int  -  vertical starting position
  */
-function Item(cl, xpos, ypos){
+function Item(cl, xpos, ypos, w, h){
 	//properties to let each item store its own x/y position
 	this.x = xpos; 
 	this.y = ypos;
+	//its width and height
+	this.width = w;
+	this.height = h;
 	//property that keeps track of the item's visual
 	this.item_on_page;
 	/**
@@ -29,17 +32,21 @@ function Item(cl, xpos, ypos){
 	 * The destroy method removes the item from the game
 	 */ 
 	 this.destroy = function(){
-         //assign an animating GIF where the drop is
-         var newsplash = document.createElement("img");
-         newsplash.src="img/splash.gif?"+Math.random();
-         newsplash.style.position="absolute";
-         newsplash.style.left=this.x+"px";
-         newsplash.style.top=this.y+"px";
-         document.body.appendChild(newsplash);
-         //figure out this drop's index num
-         var index_num = drop_array.indexOf(this);
-          // to remove an item from array: splice(index,howMany);
-         drop_array.splice(0,1);
+		 //begin "if it's a raindrip, add a splash and remove it from the array"
+		 if(this.item_on_page.className=="raindrop"){
+			 //assign an animating GIF where the drop is
+			 var newsplash = document.createElement("img");
+			 newsplash.src="img/splash.gif?"+Math.random();
+			 newsplash.style.position="absolute";
+			 newsplash.style.left=this.x+"px";
+			 newsplash.style.top=this.y+"px";
+			 document.body.appendChild(newsplash);
+			 //figure out this drop's index num
+			 var index_num = drop_array.indexOf(this);
+			  // to remove an item from array: splice(index,howMany);
+			 drop_array.splice(0,1);
+		 }//end "if it's a raindrip, add a splash and remove it from the array"
+		 
 		  //remove div on the page from the child of the body
 		 document.body.removeChild(this.item_on_page);
 	 }//end function destroy()

@@ -15,9 +15,17 @@
         //an array to keep track of all the drops
         var drop_array = new Array();
         //instantiate on ground at bottom:
-        var ground = new Item("ground", 
-                            0, 
-                            500);
+        var bucket = new Item("bucket",0, 
+                            421, 100, 75);	
+		bucket.create();
+		//add listener: if key is pressed:
+		document.onkeydown = function(e){
+			checkKey(e);
+		}
+		
+		var ground = new Item("ground",0, 
+                            500, 720, 50);
+		
         ground.create();
         //start a named timer causing drops to
         //generate every so often:
@@ -32,7 +40,7 @@
         function spawnDrop(){
         //instantiate one raindrop
             var another_drop = new Item("raindrop", 
-                                  Math.floor(Math.random()*720),-50);
+                                  Math.floor(Math.random()*720),-50, 50 , 50);
             another_drop.create();
             //store it in the array
             drop_array.push(another_drop);
@@ -49,6 +57,15 @@
                drop_array[i].item_on_page.style.top = 
                    drop_array[i].y + "px";
                
+			   //if this drop is touching the bucket...
+			   if(collisionCheck(drop_array[i],bucket)){
+				   //destroy the drop
+				   drop_array[i].destroy(); 
+				   
+				   
+			   }
+			 
+			   
                //if drop is too far down...
                if(drop_array[i].y>500 ){
                     // DESTROY ITS!!!
@@ -58,7 +75,54 @@
         }//end moveDrops()
         
         
-        
+        /**
+		 *this method causes various
+		 *reactions to keys being pressed
+		 *
+		 *@param e		event object
+		 */
+		 function checkKey(e){
+			 //explain e to all browsers 
+			 e = e || window.event;
+			 if (e.keyCode == 39){
+				 console.log("right");
+				 //console.log ("right");
+				 bucket.x +=20;
+				 bucket.item_on_page.style.left = bucket.x+"px";
+			 } else if(e.keyCode == 37){
+				 console.log("left");
+				 //console.log ("left");
+				 bucket.x -=20;
+				 bucket.item_on_page.style.left = bucket.x+"px";
+			 }
+			 
+		 }//end function checkKey
+		 
+		 /** 
+		  *this method sees if 2 items are touching
+		  *
+		  *
+		  *@param sm_obj	one item
+		  *@param lg_obj	another item
+		  *@return 		true if touching, false if not
+		  */
+		  
+		 function collisionCheck(sm_obj, big_obj){
+			  var smL =sm_obj.x;
+			  var smR =sm_obj.x+sm_obj.width;
+			  var smT =sm_obj.y;
+			  var smB =sm_obj.y+sm_obj.height;
+			  var bigL =big_obj.x;
+			  var bigR =big_obj.x+big_obj.width;
+			  var bigT =big_obj.y;
+			  var bigB =big_obj.y+big_obj.height;
+			  if((smR<bigR)&&(smL>bigL)){
+				  if((smB<bigB)&&(smT>bigT)){
+				  return true;
+			  }
+			  }
+			  return false;
+		  }//end function collisionCheck()
     </script>
 </body>
 </html>
