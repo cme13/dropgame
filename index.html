@@ -106,7 +106,7 @@
 		  *@param lg_obj	another item
 		  *@return 		true if touching, false if not
 		  */
-		  
+		 
 		 function collisionCheck(sm_obj, big_obj){
 			  var smL =sm_obj.x;
 			  var smR =sm_obj.x+sm_obj.width;
@@ -115,13 +115,20 @@
 			  var bigL =big_obj.x;
 			  var bigR =big_obj.x+big_obj.width;
 			  var bigT =big_obj.y;
-			  var bigB =big_obj.y+big_obj.height;
+			  var bigB =big_obj.y+big_obj.height; 
+			  /*very strict
 			  if((smR<bigR)&&(smL>bigL)){
 				  if((smB<bigB)&&(smT>bigT)){
 				  return true;
 			  }
-			  }
+			  }*/
+			  //lenient
+			  if((smR>bigL)&&(smL<bigR)){
+				  if((smB>bigT)&&(smT<bigB)){
+				  return true; }
+				 }
 			  return false;
+				 
 		  }//end function collisionCheck()
     </script>
 </body>
